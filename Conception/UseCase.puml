@@ -1,0 +1,28 @@
+@startuml
+left to right direction
+
+actor "Visiteur (Public)" as Public
+actor "Administrateur" as Admin
+
+package "Application Player Score" {
+
+    usecase "Consulter la liste des joueurs" as UC_List
+    usecase "Voir le score d'un joueur" as UC_Score
+
+    usecase "Gérer les joueurs (CRUD)" as UC_CRUD
+    usecase "Rechercher un joueur" as UC_Search
+    usecase "Filter " as UC_Pagination
+}
+
+' Relations Public
+Public -- UC_List
+UC_List <.. UC_Score : <<extend>>
+UC_List <.. UC_Search : <<extend>>
+UC_List <.. UC_Pagination : <<extend>>
+
+' Relations Admin
+Admin -- UC_CRUD
+UC_CRUD <.. UC_Search : <<extend>>
+UC_CRUD <.. UC_Pagination : <<extend>>
+
+@enduml
