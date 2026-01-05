@@ -1,0 +1,34 @@
+classDiagram
+    class User {
+        +int id
+        +string username
+        +string password
+        +string role
+    }
+
+    class Team {
+        +int id
+        +string name
+        +string coach
+    }
+
+    class Player {
+        +int id
+        +string name
+        +int score
+        +Date matchDate
+        +int teamId
+    }
+
+    class PlayerExtraTeam {
+        +int playerId
+        +int teamId
+        +string role
+    }
+
+    %% Relations
+    User "1" --> "*" Player : manages
+    Team "1" --> "*" Player : main team
+    Player --> Team : belongs to main team
+    PlayerExtraTeam "*" --> "1" Player : optional extra
+    PlayerExtraTeam "*" --> "1" Team : optional extra

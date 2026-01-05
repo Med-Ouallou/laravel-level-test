@@ -12,6 +12,7 @@ style: |
     border-radius: 8px;
   }
 
+
 ---
 
 # Player Score  
@@ -69,11 +70,12 @@ L’application est basée sur deux types d’acteurs :
 
 ---
 
-## Conception
+# Conception
 
+--- 
+![w:350 Class Diagram](./image/ClassDiagram.png)
 
-
-
+---
 
 
 
