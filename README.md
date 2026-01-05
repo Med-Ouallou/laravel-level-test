@@ -65,7 +65,7 @@ L’application est basée sur deux types d’acteurs :
 - **Visiteur (Public)**.
 - **Administrateur**.
 
-<img src="./image/Usecase.png" class="img-1">
+<img src="./image/usecase.png" class="img-1">
 
 ---
 
