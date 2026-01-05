@@ -42,6 +42,71 @@ Le projet **Player Score** permet de centraliser les informations liées aux jou
 
 ## Besoin – Analyse Technique
 
+### __Technologies a Utilisées__
+1. **Base de données** : MySQL.
+2. **Architecture N-tiers** : Services.
+3. **Framework** : Laravel.
+4. **Architecture** : MVC.
+5. **Moteur de vue** : Blade.
+---
+6. **AJAX** : Interactions dynamiques sans rechargement.
+7. **Upload Image** : upload d'images.
+8. **Laravel multi-lang** : Interface multilingue.
+9. **Vite** : L'outil de construction moderne.
+10. **Preline** : Gestion des composants UI.
+11. **Tailwind CSS** : Framework CSS utilitaire.
+12. **CSS** : Tailwind CSS.
+---
+
+## Analyse Fonctionnelle
+
+L’application est basée sur deux types d’acteurs :
+
+- **Visiteur (Public)**.
+- **Administrateur**.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
 L’application est basée sur deux types d’acteurs :
 
 - **Utilisateur (Public)**
@@ -73,8 +138,4 @@ L’administrateur peut :
 - Supprimer un joueur
 - Consulter la liste complète des joueurs
 - Rechercher un joueur
-- Gérer l’affichage avec **pagination**
-
----
-
-## Analyse Fonctionnelle
+- Gérer l’affichage avec **pagination** -->
