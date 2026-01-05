@@ -4,6 +4,14 @@ theme: default
 paginate: true
 title: Player Score
 author: Mohamed Ouallou
+style: |
+  img {
+    max-width: 100%;
+    display: block;
+    margin:  0em auto;
+    border-radius: 8px;
+  }
+
 ---
 
 # Player Score  
@@ -13,9 +21,9 @@ author: Mohamed Ouallou
 
 ## Contexte – Player Score
 
-Le projet **Player Score** permet de centraliser les informations liées aux joueurs  
-(nom, équipe, score, date de match, etc.) et de suivre l’évolution de leurs performances  
-de manière claire et organisée.
+Le projet **Player Score** permet de centraliser les informations liées aux joueurs de suivre l’évolution de leurs performances.
+
+<img src="./image/2tup.png" class="img-1">
 
 ---
 
