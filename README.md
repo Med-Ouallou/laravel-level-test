@@ -1,49 +1,72 @@
-## Context - Player Score
+---
+marp: true
+theme: default
+paginate: true
+title: Player Score
+author: Mohamed Ouallou
+---
 
-* Le projet Player Score permet de centraliser les informations liées aux joueurs (nom, équipe, score, date de match, etc.) et de suivre l’évolution de leurs performances de manière claire et organisée.
-
-* L’objectif principal :
-
-    - Comprendre la conception générique d’une application CRUD
-
-    - Séparer la partie fonctionnelle (besoins métiers) de la réalisation technique
-
-    - Mettre en pratique les opérations de base : Ajouter, Lire, Modifier, Supprimer
-
-    - Préparer l’étudiant à des projets plus complexes en respectant une méthodologie structurée
+# Player Score  
+### Application de gestion des scores des joueurs
 
 ---
 
-## Besoin - Analyse Technique
+## Contexte – Player Score
 
-### Acteurs du système : 
+Le projet **Player Score** permet de centraliser les informations liées aux joueurs  
+(nom, équipe, score, date de match, etc.) et de suivre l’évolution de leurs performances  
+de manière claire et organisée.
 
-- Utilisateur (Public)
-- Administrateur
+---
 
-### Partie Public :
+## Objectifs du projet
+
+- Comprendre la **conception générique** d’une application CRUD  
+- Séparer la **partie fonctionnelle** de la **réalisation technique**  
+- Mettre en pratique les opérations :
+  - Ajouter
+  - Lire
+  - Modifier
+  - Supprimer
+- Respecter une **méthodologie structurée (2TUP)**
+
+---
+
+## Besoin – Analyse Technique
+
+L’application est basée sur deux types d’acteurs :
+
+- **Utilisateur (Public)**
+- **Administrateur**
+
+Chaque acteur dispose de fonctionnalités spécifiques.
+
+---
+
+## Acteur : Utilisateur (Public)
+
+L’utilisateur public peut :
 
 - Consulter la liste des joueurs
 - Voir le score de chaque joueur
 - Rechercher un joueur par :
-   - Nom
-   - Équipe
-- Consulter les scores avec pagination
+  - Nom
+  - Équipe
+- Consulter les scores avec **pagination**
 
-### Partie Admin :
+---
+
+## Acteur : Administrateur (Admin)
+
+L’administrateur peut :
 
 - Ajouter un nouveau joueur
 - Modifier les informations d’un joueur
 - Supprimer un joueur
 - Consulter la liste complète des joueurs
 - Rechercher un joueur
-- Pagination 
-
+- Gérer l’affichage avec **pagination**
 
 ---
 
-## Analyse
-
-
-
-
+## Analyse Fonctionnelle
