@@ -70,12 +70,18 @@ L’application est basée sur deux types d’acteurs :
 
 ---
 
-# Conception
+## Conception
 
 --- 
 ![w:350 Class Diagram](./image/ClassDiagram.png)
 
 ---
+
+## Sujet - Live coding
+
+* Un bouton “Ajouter” qui ouvre une modale pour créer un nouvel élément.
+* Une barre de recherche filtrant des éléments par joueur.
+
 
 
 
