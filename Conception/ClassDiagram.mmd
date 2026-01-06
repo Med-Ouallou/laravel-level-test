@@ -1,34 +1,25 @@
 classDiagram
+    direction LR
+
     class User {
         +int id
-        +string username
-        +string password
-        +string role
+        +string nom
+        +string email
+        +string mot_de_passe
+    }
+
+    class Player {
+        +int id
+        +string image
+        +string name
+        +int score
     }
 
     class Team {
         +int id
         +string name
-        +string coach
-    }
-
-    class Player {
-        +int id
-        +string name
-        +int score
-        +Date matchDate
-        +int teamId
-    }
-
-    class PlayerExtraTeam {
-        +int playerId
-        +int teamId
-        +string role
     }
 
     %% Relations
-    User "1" --> "*" Player : manages
-    Team "1" --> "*" Player : main team
-    Player --> Team : belongs to main team
-    PlayerExtraTeam "*" --> "1" Player : optional extra
-    PlayerExtraTeam "*" --> "1" Team : optional extra
+    User "1" -- "0..*" Player : crée
+    User "1" -- "0..*" Team : crée
