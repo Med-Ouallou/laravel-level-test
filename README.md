@@ -17,7 +17,7 @@ style: |
 
 # Player Score  
 ### Application de gestion des scores des joueurs
-Realisé par : **Mohamed Ouallou**
+Realisé par : **Mohamed Ouallou**<br>
 Encadré par : **M.ESSARAJ Fouad**
 
 ---
