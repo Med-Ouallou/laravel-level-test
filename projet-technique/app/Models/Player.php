@@ -9,6 +9,11 @@ class Player extends Model
     protected $fillable = ['image', 'name', 'score', 'user_id'];
 
     public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function teams() {
         return $this->belongsToMany(Team::class, 'player_team');
     }
 }
+

@@ -3,9 +3,9 @@ classDiagram
 
     class User {
         +int id
-        +string nom
+        +string name
         +string email
-        +string mot_de_passe
+        +string password
     }
 
     class Player {
@@ -23,3 +23,4 @@ classDiagram
     %% Relations
     User "1" -- "0..*" Player : crée
     User "1" -- "0..*" Team : crée
+    Player "0..*" -- "0..*" Team : appartient à
