@@ -17,25 +17,41 @@ class AdminController extends Controller
 
     public function createPlayer()
     {
-        $teams = Team::all();
+        $teams = Team::all()->groupBy('type');
         return view('admin.players.create', compact('teams'));
     }
 
     public function storePlayer(Request $request, PlayerService $service)
     {
-        $service->store($request->only(['name', 'image', 'score', 'teams']));
+        $request->validate([
+            'name' => 'required',
+            'score' => 'required|integer|min:0',
+            'image' => 'nullable|image|max:2048', // Validate image file
+            'teams' => 'nullable|array',
+            'teams.*' => 'exists:teams,id'
+        ]);
+
+        $service->store($request->all());
         return redirect()->route('admin.players')->with('success', 'Player added');
     }
 
     public function editPlayer(Player $player)
     {
-        $teams = Team::all();
+        $teams = Team::all()->groupBy('type');
         return view('admin.players.edit', compact('player', 'teams'));
     }
 
     public function updatePlayer(Request $request, Player $player, PlayerService $service)
     {
-        $service->update($player, $request->only(['name', 'image', 'score', 'teams']));
+        $request->validate([
+            'name' => 'required',
+            'score' => 'required|integer|min:0',
+            'image' => 'nullable|image|max:2048', // Validate image file
+            'teams' => 'nullable|array',
+            'teams.*' => 'exists:teams,id'
+        ]);
+
+        $service->update($player, $request->all());
         return redirect()->route('admin.players')->with('success', 'Player updated');
     }
 

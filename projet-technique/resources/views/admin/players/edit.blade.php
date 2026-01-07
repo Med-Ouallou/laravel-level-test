@@ -4,77 +4,133 @@
 @section('header', 'Edit Player')
 
 @section('content')
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-7">
-        <form action="{{ url('admin/players/' . $player->id) }}" method="POST">
-            @csrf
-            @method('PUT')
-            
-             <div class="grid gap-y-4">
-                <!-- Name -->
-                <div>
-                   <label for="name" class="block text-sm mb-2 font-medium">Full Name</label>
-                   <input type="text" name="name" id="name" value="{{ old('name', $player->name) }}" required
-                        class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none border">
-                     @error('name')
-                        <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Score -->
-                <div>
-                    <label for="score" class="block text-sm mb-2 font-medium">Score</label>
-                    <input type="number" name="score" id="score" value="{{ old('score', $player->score) }}" required min="0"
-                        class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none border">
-                     @error('score')
-                        <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Image URL -->
-                <div>
-                    <label for="image" class="block text-sm mb-2 font-medium">Image URL</label>
-                    <div class="flex items-center gap-4">
-                         <input type="url" name="image" id="image" value="{{ old('image', $player->image) }}" placeholder="https://example.com/avatar.jpg"
-                            class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none border">
-                         @if($player->image)
-                            <div class="shrink-0">
-                                <img src="{{ $player->image }}" alt="Preview" class="h-12 w-12 object-cover rounded-full border">
-                            </div>
-                        @endif
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-4 sm:p-7">
+                <div class="mb-6 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">
+                            Edit Player
+                        </h3>
+                        <p class="text-sm text-slate-500">
+                            Update the information for {{ $player->name }}.
+                        </p>
                     </div>
-                     <p class="mt-2 text-xs text-gray-500">Provide a direct link to the player's photo.</p>
-                     @error('image')
-                        <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
-                    @enderror
+                    @if($player->image)
+                        <div class="shrink-0">
+                            <img src="{{ $player->image }}" alt="{{ $player->name }}"
+                                class="h-12 w-12 object-cover rounded-full border border-slate-200 ring-2 ring-white">
+                        </div>
+                    @endif
                 </div>
 
-                 <!-- Teams -->
-                 <div>
-                     <label class="block text-sm mb-2 font-medium">Assign Teams</label>
-                     <div class="grid grid-cols-2 gap-2">
-                        @forelse($teams as $team)
-                            <label for="team-{{ $team->id }}" class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                <span class="text-sm text-gray-500">{{ $team->name }}</span>
-                                <input type="checkbox" name="teams[]" value="{{ $team->id }}" id="team-{{ $team->id }}" class="shrink-0 ms-auto mt-0.5 border-gray-200 rounded text-indigo-600 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none"
-                                @if($player->teams->contains($team->id)) checked @endif>
-                            </label>
-                        @empty
-                            <p class="text-sm text-gray-500 col-span-2">No teams available.</p>
-                        @endforelse
-                     </div>
-                </div>
-            </div>
+                <form action="{{ url('admin/players/' . $player->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
 
-            <div class="mt-8 flex justify-end gap-x-2">
-                <a href="{{ route('admin.players') }}" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                    Cancel
-                </a>
-                <button type="submit" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none">
-                    Update Player
-                </button>
+                    <div class="grid gap-6">
+                        <!-- Name -->
+                        <div>
+                            <label for="name" class="block text-sm font-medium mb-2 text-slate-700">Full Name <span
+                                    class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <input type="text" name="name" id="name" value="{{ old('name', $player->name) }}" required
+                                    class="py-3 px-4 pl-11 block w-full border-slate-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none shadow-sm">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                    <i data-lucide="user" class="w-4 h-4 text-slate-400"></i>
+                                </div>
+                            </div>
+                            @error('name')
+                                <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Score -->
+                            <div>
+                                <label for="score" class="block text-sm font-medium mb-2 text-slate-700">Score <span
+                                        class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <input type="number" name="score" id="score" value="{{ old('score', $player->score) }}"
+                                        required min="0"
+                                        class="py-3 px-4 pl-11 block w-full border-slate-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                        <i data-lucide="trophy" class="w-4 h-4 text-slate-400"></i>
+                                    </div>
+                                </div>
+                                <p class="mt-2 text-xs text-slate-500">Enter the player's total score.</p>
+                                @error('score')
+                                    <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Image File -->
+                            <div>
+                                <label for="image" class="block text-sm font-medium mb-2 text-slate-700">Avatar
+                                    Image</label>
+                                <div class="flex items-center gap-4">
+                                    <div class="relative w-full">
+                                        <input type="file" name="image" id="image" accept="image/*" class="block w-full text-sm text-slate-500
+                                            file:me-4 file:py-2 file:px-4
+                                            file:rounded-lg file:border-0
+                                            file:text-sm file:font-semibold
+                                            file:bg-indigo-600 file:text-white
+                                            file:disabled:opacity-50 file:disabled:pointer-events-none
+                                            hover:file:bg-indigo-700
+                                            file:cursor-pointer">
+                                    </div>
+                                    @if($player->image)
+                                        <div class="shrink-0 group relative">
+                                            <img src="{{ $player->image }}" alt="Preview"
+                                                class="h-10 w-10 object-cover rounded-lg border shadow-sm">
+                                            <div
+                                                class="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center rounded-lg">
+                                                <span class="text-xs text-white">Current</span>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                                <p class="mt-2 text-xs text-slate-500">Leave empty to keep current image. Upload new to
+                                    replace.</p>
+                                @error('image')
+                                    <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Teams with Optgroup -->
+                        <div class="pt-2 border-t border-slate-200">
+                            <label for="teams" class="block text-sm font-medium mb-3 text-slate-700">Assign Teams</label>
+                            <select name="teams[]" id="teams" multiple
+                                class="py-3 px-4 pe-9 block w-full border-slate-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none shadow-sm">
+                                <option value="" disabled>Select teams...</option>
+                                @foreach($teams as $type => $groupTeams)
+                                    <optgroup label="{{ ucfirst($type) }}">
+                                        @foreach($groupTeams as $team)
+                                            <option value="{{ $team->id }}" @if($player->teams->contains($team->id)) selected
+                                            @endif>{{ $team->name }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                @endforeach
+                            </select>
+                            <p class="mt-2 text-xs text-slate-500">Hold Ctrl (Windows) or Command (Mac) to select multiple
+                                teams.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end gap-x-3 pt-6 border-t border-slate-200">
+                        <a href="{{ route('admin.players') }}"
+                            class="py-2.5 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-slate-500">
+                            Cancel
+                        </a>
+                        <button type="submit"
+                            class="py-2.5 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <i data-lucide="save" class="w-4 h-4"></i>
+                            Update Player
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
-</div>
 @endsection
