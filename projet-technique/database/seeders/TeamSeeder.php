@@ -20,8 +20,10 @@ class TeamSeeder extends Seeder
         $header = array_shift($rows);
 
         foreach ($rows as $row) {
-            if(count($row) < 2) continue;
-            Team::create(array_combine($header, $row));
+            if(count($row) < 1) continue;
+            $data = array_combine($header, $row);
+            $data['user_id'] = $data['user_id'] ?? 1; // Default to user 1 if not present
+            Team::updateOrCreate(['name' => $data['name']], $data);
         }
     }
 }

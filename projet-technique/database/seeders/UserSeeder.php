@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
 
             $data = array_combine($header, $row);
 
-            User::create($data);
+            User::updateOrCreate(['email' => $data['email']], $data);
         }
     }
 }

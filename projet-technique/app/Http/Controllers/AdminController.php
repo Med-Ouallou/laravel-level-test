@@ -9,10 +9,23 @@ use App\Services\PlayerService;
 
 class AdminController extends Controller
 {
-    public function indexPlayers()
+    public function indexPlayers(Request $request)
     {
-        $players = Player::paginate(10);
-        return view('admin.players.index', compact('players'));
+        $query = Player::query();
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $players = $query->paginate(10);
+
+        if ($request->ajax()) {
+            return view('admin.players.partials.table', compact('players'))->render();
+        }
+
+        $teams = Team::all()->groupBy('type');
+
+        return view('admin.players.index', compact('players', 'teams'));
     }
 
     public function createPlayer()
@@ -31,7 +44,15 @@ class AdminController extends Controller
             'teams.*' => 'exists:teams,id'
         ]);
 
-        $service->store($request->all());
+        $data = $request->all();
+        $data['user_id'] = auth()->id() ?? 1;
+
+        $service->store($data);
+
+        if ($request->ajax()) {
+            return response()->json(['success' => 'Player added successfully']);
+        }
+
         return redirect()->route('admin.players')->with('success', 'Player added');
     }
 
@@ -58,6 +79,11 @@ class AdminController extends Controller
     public function deletePlayer(Player $player, PlayerService $service)
     {
         $service->delete($player);
+
+        if (request()->ajax()) {
+            return response()->json(['success' => 'Player deleted successfully']);
+        }
+
         return back()->with('success', 'Player deleted');
     }
 }

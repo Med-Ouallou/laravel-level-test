@@ -101,20 +101,24 @@
                         <!-- Teams with Optgroup -->
                         <div class="pt-2 border-t border-slate-200">
                             <label for="teams" class="block text-sm font-medium mb-3 text-slate-700">Assign Teams</label>
-                            <select name="teams[]" id="teams" multiple
-                                class="py-3 px-4 pe-9 block w-full border-slate-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none shadow-sm">
-                                <option value="" disabled>Select teams...</option>
+                            <div class="space-y-4">
                                 @foreach($teams as $type => $groupTeams)
-                                    <optgroup label="{{ ucfirst($type) }}">
-                                        @foreach($groupTeams as $team)
-                                            <option value="{{ $team->id }}" @if($player->teams->contains($team->id)) selected
-                                            @endif>{{ $team->name }}</option>
-                                        @endforeach
-                                    </optgroup>
+                                    <div class="space-y-2">
+                                        <h5 class="text-xs font-bold uppercase text-slate-400 tracking-wider">
+                                            {{ $type }}s</h5>
+                                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                            @foreach($groupTeams as $team)
+                                                <label class="flex items-center gap-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-200">
+                                                    <input type="checkbox" name="teams[]" value="{{ $team->id }}"
+                                                        @if($player->teams->contains($team->id)) checked @endif
+                                                        class="shrink-0 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                                                    <span class="text-sm font-medium text-slate-700">{{ $team->name }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 @endforeach
-                            </select>
-                            <p class="mt-2 text-xs text-slate-500">Hold Ctrl (Windows) or Command (Mac) to select multiple
-                                teams.</p>
+                            </div>
                         </div>
                     </div>
 

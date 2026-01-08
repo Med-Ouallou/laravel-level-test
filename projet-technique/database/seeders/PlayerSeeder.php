@@ -21,7 +21,8 @@ class PlayerSeeder extends Seeder
 
         foreach ($rows as $row) {
             if(count($row) < 4) continue; 
-            Player::create(array_combine($header, $row));
+            $data = array_combine($header, $row);
+            Player::updateOrCreate(['name' => $data['name']], $data);
         }
     }
 }
