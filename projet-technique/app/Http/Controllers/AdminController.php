@@ -11,7 +11,7 @@ class AdminController extends Controller
 {
     public function indexPlayers(Request $request)
     {
-        $query = Player::query();
+        $query = Player::with('teams');
 
         if ($request->has('search') && $request->search != '') {
             $query->where('name', 'like', '%' . $request->search . '%');

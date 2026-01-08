@@ -51,9 +51,14 @@
                 </td>
                 <td class="h-px w-72 whitespace-nowrap">
                     <div class="px-6 py-3">
-                        <div class="flex items-center gap-1">
-                            <i data-lucide="users" class="w-3 h-3 text-slate-400"></i>
-                            <span class="text-sm text-gray-600">{{ $player->teams->count() }} Teams</span>
+                        <div class="flex flex-wrap gap-1">
+                            @forelse($player->teams as $team)
+                                <span class="inline-flex items-center gap-x-1.5 py-0.5 px-2 rounded-lg text-[10px] font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
+                                    {{ $team->name }}
+                                </span>
+                            @empty
+                                <span class="text-xs text-slate-400 italic">No teams assigned</span>
+                            @endforelse
                         </div>
                     </div>
                 </td>

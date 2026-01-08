@@ -20,9 +20,17 @@ class PlayerSeeder extends Seeder
         $header = array_shift($rows); 
 
         foreach ($rows as $row) {
-            if(count($row) < 4) continue; 
+            if(count($row) < 5) continue; 
             $data = array_combine($header, $row);
-            Player::updateOrCreate(['name' => $data['name']], $data);
+            
+            $teamNames = explode('|', $data['team'] ?? '');
+
+            $player = Player::updateOrCreate(['name' => $data['name']], $data);
+            
+            if (!empty($teamNames)) {
+                $teamIds = \App\Models\Team::whereIn('name', array_map('trim', $teamNames))->pluck('id')->toArray();
+                $player->teams()->sync($teamIds);
+            }
         }
     }
 }
