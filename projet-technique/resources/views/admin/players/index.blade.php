@@ -163,13 +163,8 @@
             const searchInput = document.getElementById('search-input');
             const tableContainer = document.getElementById('player-table-container');
             const addForm = document.getElementById('add-player-form');
-            const axios = window.axios;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             let timeout = null;
-
-            if (!axios) {
-                console.error('Axios not found on window object');
-                return;
-            }
 
             // Search functionality
             if (searchInput) {
@@ -177,25 +172,27 @@
                     clearTimeout(timeout);
                     timeout = setTimeout(() => {
                         const query = searchInput.value;
-                        axios.get('{{ url('admin/players') }}', {
-                                params: {
-                                    search: query
-                                },
-                                headers: {
-                                    'X-Requested-With': 'XMLHttpRequest'
-                                }
-                            })
-                            .then(response => {
-                                tableContainer.innerHTML = response.data;
-                                if (window.createIcons) {
-                                    window.createIcons({
-                                        icons: window.lucideIcons
-                                    });
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error fetching players:', error);
-                            });
+                        const url = new URL('{{ url('admin/players') }}');
+                        if (query) {
+                            url.searchParams.set('search', query);
+                        }
+
+                        fetch(url, {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.text())
+                        .then(html => {
+                            tableContainer.innerHTML = html;
+                            // Reinitialize lucide icons
+                            if (typeof lucide !== 'undefined') {
+                                lucide.createIcons();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching players:', error);
+                        });
                     }, 300);
                 });
             }
@@ -208,24 +205,26 @@
                     const url = paginationLink.href;
                     const search = searchInput.value;
                     const finalUrl = new URL(url);
-                    if (search) finalUrl.searchParams.set('search', search);
+                    if (search) {
+                        finalUrl.searchParams.set('search', search);
+                    }
 
-                    axios.get(finalUrl.toString(), {
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        })
-                        .then(response => {
-                            tableContainer.innerHTML = response.data;
-                            if (window.createIcons) {
-                                window.createIcons({
-                                    icons: window.lucideIcons
-                                });
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error fetching paginated players:', error);
-                        });
+                    fetch(finalUrl, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.text())
+                    .then(html => {
+                        tableContainer.innerHTML = html;
+                        // Reinitialize lucide icons
+                        if (typeof lucide !== 'undefined') {
+                            lucide.createIcons();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching paginated players:', error);
+                    });
                 }
             });
 
@@ -240,50 +239,60 @@
                     // Reset errors
                     document.querySelectorAll('[id^="error-"]').forEach(el => el.classList.add('hidden'));
 
-                    axios.post('{{ url('admin/players') }}', formData, {
-                            headers: {
-                                'Content-Type': 'multipart/form-data',
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        })
-                        .then(response => {
-                            // Success
-                            if (window.HSOverlay) {
-                                window.HSOverlay.close('#hs-add-player-modal');
-                            } else {
-                                const modal = document.getElementById('hs-add-player-modal');
-                                modal.classList.add('hidden');
-                                modal.classList.remove('open');
-                                document.body.style.overflow = '';
-                                const backdrop = document.querySelector('.hs-overlay-backdrop');
-                                if (backdrop) backdrop.remove();
-                            }
-                            
-                            addForm.reset();
-                            // Refresh table
-                            if (searchInput) {
-                                searchInput.dispatchEvent(new Event('input'));
-                            }
-                            alert('Player added successfully');
-                        })
-                        .catch(error => {
-                            if (error.response && error.response.status === 422) {
-                                const errors = error.response.data.errors;
-                                Object.keys(errors).forEach(key => {
-                                    const errorEl = document.getElementById(`error-${key}`);
-                                    if (errorEl) {
-                                        errorEl.innerText = errors[key][0];
-                                        errorEl.classList.remove('hidden');
-                                    }
-                                });
-                            } else {
-                                console.error('Error adding player:', error);
-                                alert('An error occurred. Please try again.');
-                            }
-                        })
-                        .finally(() => {
-                            submitBtn.disabled = false;
-                        });
+                    fetch('{{ url('admin/players') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw { status: response.status, data: data };
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Success - close modal
+                        if (window.HSOverlay) {
+                            window.HSOverlay.close('#hs-add-player-modal');
+                        } else {
+                            const modal = document.getElementById('hs-add-player-modal');
+                            modal.classList.add('hidden');
+                            modal.classList.remove('open');
+                            document.body.style.overflow = '';
+                            const backdrop = document.querySelector('.hs-overlay-backdrop');
+                            if (backdrop) backdrop.remove();
+                        }
+                        
+                        addForm.reset();
+                        // Refresh table
+                        if (searchInput) {
+                            searchInput.dispatchEvent(new Event('input'));
+                        }
+                        alert('Player added successfully');
+                    })
+                    .catch(error => {
+                        if (error.status === 422 && error.data && error.data.errors) {
+                            const errors = error.data.errors;
+                            Object.keys(errors).forEach(key => {
+                                const errorEl = document.getElementById(`error-${key}`);
+                                if (errorEl) {
+                                    errorEl.innerText = errors[key][0];
+                                    errorEl.classList.remove('hidden');
+                                }
+                            });
+                        } else {
+                            console.error('Error adding player:', error);
+                            alert('An error occurred. Please try again.');
+                        }
+                    })
+                    .finally(() => {
+                        submitBtn.disabled = false;
+                    });
                 });
             }
 
@@ -296,13 +305,18 @@
                         if (!confirm('Are you sure you want to delete this player?')) return;
                         
                         const action = e.target.action;
+                        const formData = new FormData(e.target);
                         
-                        axios.post(action, new FormData(e.target), {
+                        fetch(action, {
+                            method: 'POST',
                             headers: {
+                                'X-CSRF-TOKEN': csrfToken,
                                 'X-Requested-With': 'XMLHttpRequest'
-                            }
+                            },
+                            body: formData
                         })
-                        .then(response => {
+                        .then(response => response.json())
+                        .then(data => {
                             // Refresh table
                             if (searchInput) {
                                 searchInput.dispatchEvent(new Event('input'));

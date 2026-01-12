@@ -55,7 +55,7 @@ class PlayerServiceTest extends TestCase
     {
         // Arrange: Create a user and fake image
         $user = User::factory()->create();
-        $fakeImage = UploadedFile::fake()->image('player.jpg');
+        $fakeImage = UploadedFile::fake()->create('player.jpg');
         
         $playerData = [
             'name' => 'Jane Smith',
@@ -155,7 +155,7 @@ class PlayerServiceTest extends TestCase
             'image' => '/storage/players/old-image.jpg'
         ]);
 
-        $newImage = UploadedFile::fake()->image('new-player.jpg');
+        $newImage = UploadedFile::fake()->create('new-player.jpg');
         $updateData = [
             'name' => 'Player With Image',
             'image' => $newImage
