@@ -77,22 +77,28 @@
                             </div>
                         </div>
 
-                        <!-- Teams with Optgroup -->
                         <div class="pt-2 border-t border-slate-200">
-                            <label for="teams" class="block text-sm font-medium mb-3 text-slate-700">Assign Teams</label>
-                            <select name="teams[]" id="teams" multiple
-                                class="py-3 px-4 pe-9 block w-full border-slate-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none shadow-sm">
-                                <option value="" disabled>Select teams...</option>
+                            <label class="block text-sm font-medium mb-3 text-slate-700">Assign Teams</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 @foreach($teams as $type => $groupTeams)
-                                    <optgroup label="{{ ucfirst($type) }}">
-                                        @foreach($groupTeams as $team)
-                                            <option value="{{ $team->id }}">{{ $team->name }}</option>
-                                        @endforeach
-                                    </optgroup>
+                                    <div class="space-y-2">
+                                        <h4 class="font-semibold text-sm text-slate-800">{{ ucfirst($type) }}</h4>
+                                        <div class="space-y-1">
+                                            @foreach($groupTeams as $team)
+                                                <div class="flex items-center">
+                                                    <input type="checkbox" name="teams[]" value="{{ $team->id }}" id="team_{{ $team->id }}"
+                                                        {{ in_array($team->id, old('teams', [])) ? 'checked' : '' }}
+                                                        class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                                    <label for="team_{{ $team->id }}" class="text-sm text-gray-500 ms-3">{{ $team->name }}</label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 @endforeach
-                            </select>
-                            <p class="mt-2 text-xs text-slate-500">Hold Ctrl (Windows) or Command (Mac) to select multiple
-                                teams.</p>
+                            </div>
+                            @error('teams')
+                                <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 

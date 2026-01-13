@@ -42,7 +42,7 @@
                     <div class="relative pt-[60%] overflow-hidden rounded-t-xl bg-slate-100">
                         @if($player->image)
                             <img class="absolute top-0 left-0 object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                                src="{{ $player->image }}" alt="{{ $player->name }}">
+                                src="{{ asset('storage/' . $player->image) }}" alt="{{ $player->name }}">
                         @else
                             <div
                                 class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">

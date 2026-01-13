@@ -27,7 +27,7 @@
                         <div class="flex items-center gap-x-3">
                             @if($player->image)
                                 <img class="inline-block size-[38px] rounded-full object-cover ring-2 ring-white"
-                                    src="{{ $player->image }}" alt="{{ $player->name }}">
+                                    src="{{ asset('storage/' . $player->image) }}" alt="{{ $player->name }}">
                             @else
                                 <span
                                     class="inline-flex items-center justify-center size-[38px] rounded-full bg-slate-100 text-slate-500 font-semibold text-sm leading-none ring-2 ring-white">

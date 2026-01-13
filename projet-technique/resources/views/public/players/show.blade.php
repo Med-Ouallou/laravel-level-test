@@ -28,7 +28,7 @@
                 <!-- Image Section -->
                 <div class="md:w-1/3 bg-slate-100 relative">
                     @if($player->image)
-                        <img class="w-full h-full object-cover min-h-[300px]" src="{{ $player->image }}"
+                        <img class="w-full h-full object-cover min-h-[300px]" src="{{ asset('storage/' . $player->image) }}"
                             alt="{{ $player->name }}">
                     @else
                         <div class="w-full h-full min-h-[300px] flex items-center justify-center bg-gray-100 text-gray-300">

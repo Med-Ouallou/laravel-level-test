@@ -5,15 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Player;
 use Illuminate\Http\Request;
 
+use App\Services\PlayerService;
+
 class PublicController extends Controller
 {
+    protected $playerService;
+
+    public function __construct(PlayerService $playerService)
+    {
+        $this->playerService = $playerService;
+    }
+
     public function players(Request $request)
     {
-        $players = Player::with('teams')
-            ->when($request->search, fn ($q) =>
-                $q->where('name', 'like', '%' . $request->search . '%')
-            )
-            ->paginate(10);
+        $players = $this->playerService->search($request->all());
 
         return view('public.players.index', compact('players'));
     }

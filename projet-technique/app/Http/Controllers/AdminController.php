@@ -9,15 +9,16 @@ use App\Services\PlayerService;
 
 class AdminController extends Controller
 {
+    protected $playerService;
+
+    public function __construct(PlayerService $playerService)
+    {
+        $this->playerService = $playerService;
+    }
+
     public function indexPlayers(Request $request)
     {
-        $query = Player::with('teams');
-
-        if ($request->has('search') && $request->search != '') {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        $players = $query->paginate(10);
+        $players = $this->playerService->search($request->all());
 
         if ($request->ajax()) {
             return view('admin.players.partials.table', compact('players'))->render();
@@ -45,7 +46,7 @@ class AdminController extends Controller
         ]);
 
         $data = $request->all();
-        $data['user_id'] = auth()->id() ?? 1;
+        $data['user_id'] = auth()->id() ?? \App\Models\User::first()->id;
 
         $service->store($data);
 

@@ -1,286 +1,48 @@
 ﻿
-   FAIL  Tests\Unit\CalculaterTest
-  Ô¿» calculate numbers
-
-   PASS  Tests\Unit\ExampleTest
-  Ô£ô that true is true      0.02s  
-
    FAIL  Tests\Unit\PlayerServiceTest
-  Ô¿» store creates player without image
-  Ô¿» store creates player with image
-  Ô¿» store creates player with teams
-  Ô¿» update updates player without image
-  Ô¿» update updates player with new image
-  Ô¿» update updates player teams
-  Ô¿» delete removes player successfully
-  Ô¿» delete removes player and team relationships
+  Ô£ô store creates player withoÔÇª 1.36s  
+  Ô¿» store creates player withÔÇª  0.07s  
+  Ô£ô store creates player withÔÇª  0.06s  
+  Ô£ô update updates player withÔÇª 0.05s  
+  Ô¿» update updates player withÔÇª 0.05s  
+  Ô£ô update updates player teamÔÇª 0.06s  
+  Ô£ô delete removes player succÔÇª 0.04s  
+  Ô£ô delete removes player andÔÇª  0.04s  
+  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
+   FAILED  Tests\Unit\PlayerServiceÔÇª   
+  Failed asserting that 'players/MwFBWSxPYFHkKJNYb23ygtybUhUenEE8JFrVIUvK.jpg' starts with "/storage/players/".
 
-   FAIL  Tests\Unit\TeamServiceTest
-  Ô¿» store creates team successfully
-  Ô¿» store creates team with minimal data
-  Ô¿» delete removes team successfully
-  Ô¿» delete removes team with players
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
+  at tests\Unit\PlayerServiceTest.php:74
+     70Ôûò         // Assert: Verify the player was created
+     71Ôûò         $this->assertInstanceOf(Player::class, $player);
+     72Ôûò         $this->assertEquals('Jane Smith', $player->name);
+     73Ôûò         $this->assertNotNull($player->image);
+  Ô×£  74Ôûò         $this->assertStringStartsWith('/storage/players/', $player->image);
+     75Ôûò         
+     76Ôûò         // Assert: Verify the image was stored
+     77Ôûò         $imagePath = str_replace('/storage/', '', $player->image);
+     78Ôûò         Storage::disk('public')->assertExists($imagePath);
 
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
+  1   tests\Unit\PlayerServiceTest.php:74
 
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
+  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
+   FAILED  Tests\Unit\PlayerServiceÔÇª   
+  Failed asserting that 'players/JAA6DudCXHnl4KaEZendBws45llcGpXB5LT7dlsy.jpg' starts with "/storage/players/".
 
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
+  at tests\Unit\PlayerServiceTest.php:169
+    165Ôûò         $updatedPlayer = $this->playerService->update($player, $updateData);
+    166Ôûò 
+    167Ôûò         // Assert: Verify the image was updated
+    168Ôûò         $this->assertNotNull($updatedPlayer->image);
+  Ô×£ 169Ôûò         $this->assertStringStartsWith('/storage/players/', $updatedPlayer->image);
+    170Ôûò         $this->assertNotEquals('/storage/players/old-image.jpg', $updatedPlayer->image);
+    171Ôûò         
+    172Ôûò         // Assert: Verify new image was stored
+    173Ôûò         $imagePath = str_replace('/storage/', '', $updatedPlayer->image);
 
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
-
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
-
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
-
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
-
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
-
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
-
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
-
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
-
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
-
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
-
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
-
-  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
-   FAILED  TesÔÇª  QueryException   
-  could not find driver (Connection: sqlite, SQL: select exists (select 1 from "main".sqlite_master where name = 'migrations' and type = 'table') as "exists")
-
-  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
-    823Ôûò                 );
-    824Ôûò             }
-    825Ôûò 
-  Ô×£ 826Ôûò             throw new QueryException(
-    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
-    828Ôûò             );
-    829Ôûò         }
-    830Ôûò     }
-
-  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
-
-  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:67
-      NunoMaduro\Collision\Exceptions\TestException::("could not find driver")
+  1   tests\Unit\PlayerServiceTest.php:169
 
 
-  Tests:    13 failed, 1 passed (1 assertions)
-  Duration: 1.07s
+  Tests:    2 failed, 6 passed (33 assertions)
+  Duration: 1.89s
 

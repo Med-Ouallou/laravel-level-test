@@ -71,10 +71,10 @@ class PlayerServiceTest extends TestCase
         $this->assertInstanceOf(Player::class, $player);
         $this->assertEquals('Jane Smith', $player->name);
         $this->assertNotNull($player->image);
-        $this->assertStringStartsWith('/storage/players/', $player->image);
+        $this->assertStringStartsWith('players/', $player->image);
         
         // Assert: Verify the image was stored
-        $imagePath = str_replace('/storage/', '', $player->image);
+        $imagePath = $player->image;
         Storage::disk('public')->assertExists($imagePath);
     }
 
@@ -82,8 +82,8 @@ class PlayerServiceTest extends TestCase
     {
         // Arrange: Create user and teams
         $user = User::factory()->create();
-        $team1 = Team::factory()->create(['user_id' => $user->id]);
-        $team2 = Team::factory()->create(['user_id' => $user->id]);
+        $team1 = Team::factory()->create();
+        $team2 = Team::factory()->create();
         
         $playerData = [
             'name' => 'Team Player',
@@ -166,11 +166,11 @@ class PlayerServiceTest extends TestCase
 
         // Assert: Verify the image was updated
         $this->assertNotNull($updatedPlayer->image);
-        $this->assertStringStartsWith('/storage/players/', $updatedPlayer->image);
+        $this->assertStringStartsWith('players/', $updatedPlayer->image);
         $this->assertNotEquals('/storage/players/old-image.jpg', $updatedPlayer->image);
         
         // Assert: Verify new image was stored
-        $imagePath = str_replace('/storage/', '', $updatedPlayer->image);
+        $imagePath = $updatedPlayer->image;
         Storage::disk('public')->assertExists($imagePath);
     }
 
@@ -179,9 +179,9 @@ class PlayerServiceTest extends TestCase
         // Arrange: Create player with initial teams
         $user = User::factory()->create();
         $player = Player::factory()->create(['user_id' => $user->id]);
-        $team1 = Team::factory()->create(['user_id' => $user->id]);
-        $team2 = Team::factory()->create(['user_id' => $user->id]);
-        $team3 = Team::factory()->create(['user_id' => $user->id]);
+        $team1 = Team::factory()->create();
+        $team2 = Team::factory()->create();
+        $team3 = Team::factory()->create();
         
         // Attach initial teams
         $player->teams()->attach([$team1->id, $team2->id]);
@@ -240,8 +240,8 @@ class PlayerServiceTest extends TestCase
         // Arrange: Create a player with teams
         $user = User::factory()->create();
         $player = Player::factory()->create(['user_id' => $user->id]);
-        $team1 = Team::factory()->create(['user_id' => $user->id]);
-        $team2 = Team::factory()->create(['user_id' => $user->id]);
+        $team1 = Team::factory()->create();
+        $team2 = Team::factory()->create();
         
         $player->teams()->attach([$team1->id, $team2->id]);
         $playerId = $player->id;

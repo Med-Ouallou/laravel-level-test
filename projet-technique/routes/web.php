@@ -19,5 +19,5 @@ Route::prefix('admin')->group(function () {
     Route::delete('/players/{player}', [AdminController::class, 'deletePlayer']);
 
     // Teams
-    Route::resource('teams', TeamController::class, ['names' => 'admin.teams'])->except(['create', 'store']);
+    Route::resource('teams', TeamController::class, ['names' => 'admin.teams']);
 });
