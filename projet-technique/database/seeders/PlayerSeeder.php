@@ -24,6 +24,15 @@ class PlayerSeeder extends Seeder
             $data = array_combine($header, $row);
             
             $teamNames = explode('|', $data['team'] ?? '');
+            
+            // Remove 'team' from data as it's not a column in players table
+            unset($data['team']);
+
+            // Ensure valid user_id
+            $user = User::find($data['user_id']);
+            if (!$user) {
+                $data['user_id'] = User::first()->id ?? User::factory()->create()->id;
+            }
 
             $player = Player::updateOrCreate(['name' => $data['name']], $data);
             

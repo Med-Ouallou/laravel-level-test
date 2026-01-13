@@ -56,6 +56,17 @@ class PlayerService
             $query->where('name', 'like', '%' . $filters['search'] . '%');
         }
 
+        if (isset($filters['team_id'])) {
+            $query->whereHas('teams', function ($q) use ($filters) {
+                $q->where('teams.id', $filters['team_id']);
+            });
+        }
+
         return $query->paginate($perPage);
+    }
+    
+    public function getAll(array $filters = [], int $perPage = 10)
+    {
+        return $this->search($filters, $perPage);
     }
 }
