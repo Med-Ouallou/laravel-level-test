@@ -46,7 +46,12 @@ class AdminController extends Controller
         ]);
 
         $data = $request->all();
-        $data['user_id'] = auth()->id() ?? \App\Models\User::first()->id;
+        $data = $request->all();
+        $user = auth()->user() ?? \App\Models\User::first();
+        if (!$user) {
+            $user = \App\Models\User::factory()->create();
+        }
+        $data['user_id'] = $user->id;
 
         $service->store($data);
 
