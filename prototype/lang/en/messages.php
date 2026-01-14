@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'players' => 'Players',
+    'teams' => 'Teams',
+    'add_player' => 'Add New Player',
+    'edit_player' => 'Edit Player',
+    'delete_player' => 'Delete Player',
+    'name' => 'Name',
+    'score' => 'Score',
+    'assign_teams' => 'Assign Teams',
+    'save' => 'Save',
+    'cancel' => 'Cancel',
+    'search' => 'Search players...',
+    'all_players' => 'All Players',
+    'no_players_found' => 'No players found',
+    'success_added' => 'Player added successfully',
+    'success_updated' => 'Player updated successfully',
+    'success_deleted' => 'Player deleted successfully',
+    'confirm_delete' => 'Are you sure you want to delete this player?',
+    'avatar' => 'Avatar Image',
+    'type' => 'Type',
+    'club' => 'Club',
+    'country' => 'Country',
+    'dashboard' => 'Dashboard',
+    'language' => 'Language',
+];

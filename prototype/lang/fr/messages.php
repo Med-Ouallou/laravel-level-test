@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'players' => 'Joueurs',
+    'teams' => 'Équipes',
+    'add_player' => 'Ajouter un nouveau joueur',
+    'edit_player' => 'Modifier le joueur',
+    'delete_player' => 'Supprimer le joueur',
+    'name' => 'Nom',
+    'score' => 'Score',
+    'assign_teams' => 'Assigner des équipes',
+    'save' => 'Enregistrer',
+    'cancel' => 'Annuler',
+    'search' => 'Rechercher des joueurs...',
+    'all_players' => 'Tous les joueurs',
+    'no_players_found' => 'Aucun joueur trouvé',
+    'success_added' => 'Joueur ajouté avec succès',
+    'success_updated' => 'Joueur mis à jour avec succès',
+    'success_deleted' => 'Joueur supprimé avec succès',
+    'confirm_delete' => 'Êtes-vous sûr de vouloir supprimer ce joueur ?',
+    'avatar' => 'Image de l\'avatar',
+    'type' => 'Type',
+    'club' => 'Club',
+    'country' => 'Pays',
+    'dashboard' => 'Tableau de bord',
+    'language' => 'Langue',
+];
