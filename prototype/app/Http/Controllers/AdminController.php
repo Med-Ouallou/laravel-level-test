@@ -60,35 +60,4 @@ class AdminController extends Controller
 
         return redirect()->route('admin.players')->with('success', 'Player added');
     }
-
-    public function editPlayer(Player $player)
-    {
-        $teams = Team::all()->groupBy('type');
-        return view('admin.players.edit', compact('player', 'teams'));
-    }
-
-    public function updatePlayer(Request $request, Player $player)
-    {
-        $request->validate([
-            'name' => 'required',
-            'score' => 'required|integer|min:0',
-            'image' => 'nullable|image|max:2048', // Validate image file
-            'teams' => 'nullable|array',
-            'teams.*' => 'exists:teams,id'
-        ]);
-
-        $this->playerService->update($player, $request->all());
-        return redirect()->route('admin.players')->with('success', 'Player updated');
-    }
-
-    public function deletePlayer(Player $player)
-    {
-        $this->playerService->delete($player);
-
-        if (request()->ajax()) {
-            return response()->json(['success' => 'Player deleted successfully']);
-        }
-
-        return back()->with('success', 'Player deleted');
-    }
 }

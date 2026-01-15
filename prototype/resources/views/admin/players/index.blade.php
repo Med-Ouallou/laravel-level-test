@@ -199,36 +199,6 @@
                     });
                 }
 
-                // Handle Pagination AJAX
-                document.addEventListener('click', (e) => {
-                    const paginationLink = e.target.closest('#pagination-links a');
-                    if (paginationLink) {
-                        e.preventDefault();
-                        const url = paginationLink.href;
-                        const search = searchInput.value;
-                        const finalUrl = new URL(url);
-                        if (search) {
-                            finalUrl.searchParams.set('search', search);
-                        }
-
-                        fetch(finalUrl, {
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        })
-                            .then(response => response.text())
-                            .then(html => {
-                                tableContainer.innerHTML = html;
-                                // Reinitialize lucide icons
-                                if (typeof lucide !== 'undefined') {
-                                    lucide.createIcons();
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error fetching paginated players:', error);
-                            });
-                    }
-                });
 
                 // Add Player functionality
                 if (addForm) {
@@ -298,40 +268,7 @@
                     });
                 }
 
-                // Handle Delete AJAX
-                document.addEventListener('submit', (e) => {
-                    if (e.target.matches('form[action*="/admin/players/"]')) {
-                        const methodInput = e.target.querySelector('input[name="_method"]');
-                        if (methodInput && methodInput.value === 'DELETE') {
-                            e.preventDefault();
-                            if (!confirm('Are you sure you want to delete this player?')) return;
-
-                            const action = e.target.action;
-                            const formData = new FormData(e.target);
-
-                            fetch(action, {
-                                method: 'POST',
-                                headers: {
-                                    'X-CSRF-TOKEN': csrfToken,
-                                    'X-Requested-With': 'XMLHttpRequest'
-                                },
-                                body: formData
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    // Refresh table
-                                    if (searchInput) {
-                                        searchInput.dispatchEvent(new Event('input'));
-                                    }
-                                    alert('Player deleted successfully');
-                                })
-                                .catch(error => {
-                                    console.error('Error deleting player:', error);
-                                    alert('An error occurred while deleting the player.');
-                                });
-                        }
-                    }
-                });
+                }
             });
         </script>
     @endpush

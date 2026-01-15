@@ -39,7 +39,6 @@
                                         {{ __('messages.type') }}
                                     </span>
                                 </th>
-                                <th scope="col" class="px-6 py-3 text-end"></th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -56,23 +55,6 @@
                                                 class="inline-flex items-center gap-x-1 py-1 px-2 rounded-full text-xs font-medium {{ $team->type === 'country' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800' }}">
                                                 {{ __('messages.' . ($team->type ?? 'club')) }}
                                             </span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-1.5 whitespace-nowrap text-end">
-                                        <div class="flex justify-end gap-x-2">
-                                            <a href="{{ route('admin.teams.edit', $team->id) }}"
-                                                class="text-indigo-600 hover:text-indigo-900"
-                                                title="{{ __('messages.edit_player') }}">
-                                                <i data-lucide="pencil" class="w-4 h-4"></i>
-                                            </a>
-                                            <form action="{{ route('admin.teams.destroy', $team->id) }}" method="POST"
-                                                class="inline" onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:text-red-900">
-                                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                                </button>
-                                            </form>
                                         </div>
                                     </td>
                                 </tr>

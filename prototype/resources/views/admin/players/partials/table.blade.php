@@ -16,7 +16,6 @@
                     {{ __('messages.teams') }}
                 </span>
             </th>
-            <th scope="col" class="px-6 py-3 text-end"></th>
         </tr>
     </thead>
     <tbody class="divide-y divide-gray-200">
@@ -62,26 +61,6 @@
                         </div>
                     </div>
                 </td>
-                <td class="size-px whitespace-nowrap">
-                    <div class="px-6 py-1.5">
-                        <div class="flex justify-end items-center gap-2">
-                            <a href="{{ url('admin/players/' . $player->id . '/edit') }}"
-                                class="text-slate-500 hover:text-indigo-600 transition-colors"
-                                title="{{ __('messages.edit_player') }}">
-                                <i data-lucide="pencil" class="w-4 h-4"></i>
-                            </a>
-                            <form action="{{ url('admin/players/' . $player->id) }}" method="POST"
-                                onsubmit="return confirm('{{ __('messages.confirm_delete') }}');" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-slate-500 hover:text-red-600 transition-colors"
-                                    title="{{ __('messages.delete_player') }}">
-                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </td>
             </tr>
         @empty
             <tr>
@@ -98,6 +77,4 @@
         @endforelse
     </tbody>
 </table>
-<div class="px-6 py-4 grid gap-3 border-t border-gray-200" id="pagination-links">
-    {{ $players->links() }}
 </div>

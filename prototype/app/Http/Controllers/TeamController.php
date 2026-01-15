@@ -32,22 +32,4 @@ class TeamController extends Controller
         $this->teamService->store($request->all());
         return redirect()->route('admin.teams.index')->with('success', 'Team created');
     }
-
-    public function edit(Team $team)
-    {
-        return view('admin.teams.edit', compact('team'));
-    }
-
-    public function update(Request $request, Team $team)
-    {
-        $request->validate(['name' => 'required', 'type' => 'nullable']);
-        $this->teamService->update($team, $request->all());
-        return redirect()->route('admin.teams.index')->with('success', 'Team updated');
-    }
-
-    public function destroy(Team $team)
-    {
-        $this->teamService->delete($team);
-        return redirect()->route('admin.teams.index')->with('success', 'Team deleted');
-    }
 }
