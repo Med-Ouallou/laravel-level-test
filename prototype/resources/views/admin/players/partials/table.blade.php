@@ -77,4 +77,6 @@
         @endforelse
     </tbody>
 </table>
+<div class="px-6 py-4 grid gap-3 border-t border-gray-200" id="pagination-links">
+    {{ $players->links() }}
 </div>
