@@ -6,6 +6,8 @@ use App\Models\Player;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Services\PlayerService;
+use App\Http\Requests\StorePlayerRequest;
+use App\Http\Requests\UpdatePlayerRequest;
 
 class AdminController extends Controller
 {
@@ -35,17 +37,9 @@ class AdminController extends Controller
         return view('admin.players.create', compact('teams'));
     }
 
-    public function storePlayer(Request $request, PlayerService $service)
+    public function storePlayer(StorePlayerRequest $request, PlayerService $service)
     {
-        $request->validate([
-            'name' => 'required',
-            'score' => 'required|integer|min:0',
-            'image' => 'nullable|image|max:2048', // Validate image file
-            'teams' => 'nullable|array',
-            'teams.*' => 'exists:teams,id'
-        ]);
-
-        $data = $request->all();
+        $data = $request->validated();
         $data = $request->all();
         $user = auth()->user() ?? \App\Models\User::first();
         if (!$user) {
@@ -68,17 +62,9 @@ class AdminController extends Controller
         return view('admin.players.edit', compact('player', 'teams'));
     }
 
-    public function updatePlayer(Request $request, Player $player, PlayerService $service)
+    public function updatePlayer(UpdatePlayerRequest $request, Player $player, PlayerService $service)
     {
-        $request->validate([
-            'name' => 'required',
-            'score' => 'required|integer|min:0',
-            'image' => 'nullable|image|max:2048', // Validate image file
-            'teams' => 'nullable|array',
-            'teams.*' => 'exists:teams,id'
-        ]);
-
-        $service->update($player, $request->all());
+        $service->update($player, $request->validated());
         return redirect()->route('admin.players')->with('success', 'Player updated');
     }
 
