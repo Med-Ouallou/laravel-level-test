@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/forms";
+@plugin "preline/plugin";
 
 @source '../../node_modules/preline/dist/*.js';
 

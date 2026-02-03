@@ -29,11 +29,51 @@
                     <a class="text-sm font-medium {{ request()->routeIs('public.players', 'public.player') ? 'text-indigo-600' : 'text-slate-600 hover:text-slate-900' }}" href="{{ route('public.players') }}">
                         Players
                     </a>
-                    <div class="w-px h-4 bg-slate-300"></div>
-                    <a class="text-sm font-medium text-slate-600 hover:text-indigo-600 flex items-center gap-x-1" href="{{ route('admin.players') }}">
-                        <i data-lucide="shield-check" class="w-4 h-4"></i>
-                        Admin
-                    </a>
+                    
+                    @auth
+                        @can('isAdmin')
+                        <div class="w-px h-4 bg-slate-300"></div>
+                        <a class="text-sm font-medium {{ request()->routeIs('admin.*') ? 'text-indigo-600' : 'text-slate-600 hover:text-indigo-600' }} flex items-center gap-x-1" href="{{ route('admin.players') }}">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            Admin
+                        </a>
+                        @endcan
+
+                        <div class="w-px h-4 bg-slate-300"></div>
+                        
+                        <!-- User Dropdown -->
+                        <div class="hs-dropdown relative inline-flex">
+                            <button id="hs-dropdown-basic" type="button" class="hs-dropdown-toggle py-1 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-slate-200 bg-white text-slate-800 shadow-sm hover:bg-slate-50 disabled:opacity-50 disabled:pointer-events-none transition-all" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                                <i data-lucide="user" class="size-4 text-slate-500"></i>
+                                {{ Auth::user()->name }}
+                                <i data-lucide="chevron-down" class="hs-dropdown-open:rotate-180 size-4 text-slate-600 transition-transform"></i>
+                            </button>
+
+                            <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-48 bg-white shadow-md rounded-lg p-2 mt-2 border border-slate-200 z-50" role="menu" aria-orientation="vertical" aria-labelledby="hs-dropdown-basic">
+                                <div class="px-3 py-2 border-b border-slate-100 mb-2">
+                                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Account</p>
+                                    <p class="text-sm font-medium text-slate-800 truncate">{{ Auth::user()->email }}</p>
+                                </div>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-red-600 hover:bg-red-50 focus:outline-none focus:bg-red-50 w-full text-left transition-all">
+                                        <i data-lucide="log-out" class="size-4"></i>
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @else
+                        <div class="w-px h-4 bg-slate-300"></div>
+                        <a class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-all font-semibold" href="{{ route('login') }}">
+                            Login
+                        </a>
+                        @if (Route::has('register'))
+                            <a class="text-sm font-semibold py-2 px-4 inline-flex items-center gap-x-2 rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none shadow-sm shadow-indigo-200 transition-all" href="{{ route('register') }}">
+                                Register
+                            </a>
+                        @endif
+                    @endauth
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -51,9 +91,29 @@
                     <a class="font-medium {{ request()->routeIs('public.players') ? 'text-indigo-600' : 'text-slate-600' }}" href="{{ route('public.players') }}">
                         Players
                     </a>
-                    <a class="font-medium text-slate-600" href="{{ route('admin.players') }}">
-                        Admin Area
-                    </a>
+                    @auth
+                        @can('isAdmin')
+                        <a class="font-medium {{ request()->routeIs('admin.*') ? 'text-indigo-600' : 'text-slate-600' }}" href="{{ route('admin.players') }}">
+                            Admin Area
+                        </a>
+                        @endcan
+                        <div class="border-t border-slate-100 pt-4">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="font-medium text-red-600 hover:text-red-700 transition-all flex items-center gap-x-2">
+                                    <i data-lucide="log-out" class="size-4"></i>
+                                    Logout ({{ Auth::user()->name }})
+                                </button>
+                            </form>
+                        </div>
+                    @else
+                        <div class="flex flex-col gap-y-2 pt-2">
+                            <a class="font-medium text-slate-600 hover:text-slate-900" href="{{ route('login') }}">Login</a>
+                            @if (Route::has('register'))
+                            <a class="font-medium text-indigo-600 hover:text-indigo-700" href="{{ route('register') }}">Register</a>
+                            @endif
+                        </div>
+                    @endauth
                 </div>
             </div>
         </nav>
@@ -77,5 +137,19 @@
             </div>
         </div>
     </footer>
+    <!-- Debug Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page Loaded, checking for HSStaticMethods...');
+            setTimeout(() => {
+                if (window.HSStaticMethods) {
+                    console.log('HSStaticMethods found on window!');
+                    window.HSStaticMethods.autoInit();
+                } else {
+                    console.warn('HSStaticMethods NOT found on window. Bundling might have issues.');
+                }
+            }, 500);
+        });
+    </script>
 </body>
 </html>
