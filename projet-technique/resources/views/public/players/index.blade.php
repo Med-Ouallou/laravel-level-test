@@ -109,7 +109,7 @@
 
         <!-- Pagination -->
         <div class="mt-8 border-t border-slate-200 pt-6">
-            {{ $players->links() }}
+            {{ $players->links('vendor.pagination.preline') }}
         </div>
     </div>
 @endsection

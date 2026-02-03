@@ -20,7 +20,7 @@ class AdminController extends Controller
 
     public function indexPlayers(Request $request)
     {
-        $players = $this->playerService->search($request->all());
+        $players = $this->playerService->search($request->all(), 5);
 
         if ($request->ajax()) {
             return view('admin.players.partials.table', compact('players'))->render();

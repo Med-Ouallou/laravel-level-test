@@ -18,7 +18,7 @@ class PublicController extends Controller
 
     public function players(Request $request)
     {
-        $players = $this->playerService->search($request->all());
+        $players = $this->playerService->search($request->all(), 5);
 
         return view('public.players.index', compact('players'));
     }

@@ -186,8 +186,8 @@
                         .then(html => {
                             tableContainer.innerHTML = html;
                             // Reinitialize lucide icons
-                            if (typeof lucide !== 'undefined') {
-                                lucide.createIcons();
+                            if (typeof window.createIcons !== 'undefined' && typeof window.lucideIcons !== 'undefined') {
+                                window.createIcons({ icons: window.lucideIcons });
                             }
                         })
                         .catch(error => {
@@ -218,8 +218,8 @@
                     .then(html => {
                         tableContainer.innerHTML = html;
                         // Reinitialize lucide icons
-                        if (typeof lucide !== 'undefined') {
-                            lucide.createIcons();
+                        if (typeof window.createIcons !== 'undefined' && typeof window.lucideIcons !== 'undefined') {
+                            window.createIcons({ icons: window.lucideIcons });
                         }
                     })
                     .catch(error => {
