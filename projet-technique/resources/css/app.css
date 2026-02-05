@@ -1,15 +1,17 @@
-@import 'tailwindcss';
-@plugin "@tailwindcss/forms";
-@plugin "preline/plugin";
+@import "tailwindcss";
+@config "../../tailwind.config.js";
 
-@source '../../node_modules/preline/dist/*.js';
+/* Preline UI */
+@source "../../node_modules/preline/dist/*.js";
+@import "../../node_modules/preline/variants.css";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+/* Fallback for Preline Dropdowns if Tailwind variants fail */
+.hs-dropdown-menu.hs-dropdown-open {
+    display: block !important;
+    opacity: 1 !important;
+}
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }

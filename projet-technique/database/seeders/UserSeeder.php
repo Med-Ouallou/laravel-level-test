@@ -18,9 +18,13 @@ class UserSeeder extends Seeder
         $header = array_shift($rows);
 
         foreach ($rows as $row) {
-            if(count($row) < 3) continue;
+            if (count($row) < 3)
+                continue;
 
             $data = array_combine($header, $row);
+
+            // Hash password if it's plain text (simple check or always hash in seeder)
+            $data['password'] = \Illuminate\Support\Facades\Hash::make($data['password']);
 
             User::updateOrCreate(['email' => $data['email']], $data);
         }

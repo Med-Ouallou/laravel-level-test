@@ -40,12 +40,7 @@ class AdminController extends Controller
     public function storePlayer(StorePlayerRequest $request, PlayerService $service)
     {
         $data = $request->validated();
-        $data = $request->all();
-        $user = auth()->user() ?? \App\Models\User::first();
-        if (!$user) {
-            $user = \App\Models\User::factory()->create();
-        }
-        $data['user_id'] = $user->id;
+        $data['user_id'] = auth()->id();
 
         $service->store($data);
 

@@ -21,11 +21,20 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
+     * The user has been authenticated.
      *
-     * @var string
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
      */
-    protected $redirectTo = '/home';
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+        if (\Illuminate\Support\Facades\Gate::allows('isAdmin')) {
+            return redirect()->route('admin.players');
+        }
+
+        return redirect('/home');
+    }
 
     /**
      * Create a new controller instance.
