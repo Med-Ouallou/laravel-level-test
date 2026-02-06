@@ -21,13 +21,25 @@ Realisé par : **Mohamed Ouallou**<br>
 Encadré par : **M.ESSARAJ Fouad**
 
 ---
+
+## Travail a faire
+
+### Développer l'Application Player Score
+
+**Partie Publique:** Interface permettant aux visiteurs de consulter les players et leurs scores. Fonctionnalités : Recherche par titre, pagination (10 éléments/page).
+
+**Partie Admin:** Tableau de bord sécurisé pour les opérations CRUD. Fonctionnalités : Modales pour ajout/édition, AJAX pour les mises à jour asynchrones.
+
+
+---
+
 ## Methode waterfall (en cascade)
 
 <img src="./image/Waterfall.png" class="img-1">
 
 ---
 
-## Contexte – Player Score
+## Contexte – Travail sur le projet de fin de formation
 
 **Projet de Fin de Formation :** Travail sur le projet de fin de formation, commençant par la branche technique.
 
@@ -67,6 +79,45 @@ L’application est basée sur deux types d’acteurs :
 ## Conception : Diagram de Classes
 
 ![w:350 Class Diagram](./image/ClassDiagram.png)
+
+---
+
+## Versions
+
+### Version 1
+
+- Public Side
+- Branch : public
+
+### Version 2
+
+- Admin Side
+- Branch : admin
+
+### Version 3
+
+- Authontification / Authorization (Gates)
+- Branch : gates
+
+### Version 4
+
+- SPA (Single Page Application) / AJAX - Alpine.js
+- Branch : spa
+
+### Version 5
+
+- Spatie / Authorization
+- Branch : spatie
+
+### Version 6
+
+- API
+- Branch : api
+
+### Version 7
+
+- Mobile App
+- Branch : mobile
 
 ---
 
