@@ -26,9 +26,9 @@ Encadré par : **M.ESSARAJ Fouad**
 
 ### Développer l'Application Player Score
 
-**Partie Publique:** Interface permettant aux visiteurs de consulter les players et leurs scores. Fonctionnalités : Recherche par titre, pagination (10 éléments/page).
-
-**Partie Admin:** Tableau de bord sécurisé pour les opérations CRUD. Fonctionnalités : Modales pour ajout/édition, AJAX pour les mises à jour asynchrones.
+**Partie Publique:** Interface permettant aux visiteurs de consulter les players et leurs scores.
+**Partie Admin:** Tableau de bord sécurisé pour les opérations CRUD.
+Fonctionnalités : Modales pour ajout/édition, AJAX pour les mises à jour asynchrones.
 
 
 ---
