@@ -22,7 +22,7 @@ Encadré par : **M.ESSARAJ Fouad**
 
 ---
 
-## Travail a faire
+## Exigences : Travail a faire
 
 ### Développer l'Application Player Score
 
@@ -39,7 +39,7 @@ Fonctionnalités : Modales pour ajout/édition, AJAX pour les mises à jour asyn
 
 ---
 
-## Contexte – Travail sur le projet de fin de formation
+## Contexte : Travail sur le projet de fin de formation
 
 **Projet de Fin de Formation :** Travail sur le projet de fin de formation, commençant par la branche technique.
 
@@ -47,7 +47,7 @@ Fonctionnalités : Modales pour ajout/édition, AJAX pour les mises à jour asyn
 
 ---
 
-## Exigences : Analyse Technique
+## Analyse : Analyse Technique
 
 ### __Technologies a Utilisées__
 1. **Base de données** : MySQL.
@@ -65,7 +65,7 @@ Fonctionnalités : Modales pour ajout/édition, AJAX pour les mises à jour asyn
 12. **CSS** : Tailwind CSS.
 ---
 
-## Analyse - Analyse fonctionnelle
+## Analyse : Analyse fonctionnelle
 
 L’application est basée sur deux types d’acteurs :
 
@@ -103,20 +103,25 @@ L’application est basée sur deux types d’acteurs :
 
 ### Version 4
 
-- SPA (Single Page Application) / AJAX - Alpine.js
-- Branch : spa
+- SPA (Single Page Application) / AJAX 
+- Branch : spa-ajax
 
 ### Version 5
+
+- SPA (Single Page Application) / Alpine.js
+- Branch : spa-alpine
+
+### Version 6
 
 - Spatie / Authorization
 - Branch : spatie
 
-### Version 6
+### Version 7
 
 - API
 - Branch : api
 
-### Version 7
+### Version 8
 
 - Mobile App
 - Branch : mobile
