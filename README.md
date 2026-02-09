@@ -99,6 +99,8 @@ L’application est basée sur deux types d’acteurs :
 - Authontification / Authorization (Gates)
 - Branch : gates
 
+---
+
 ### Version 4
 
 - SPA (Single Page Application) / AJAX - Alpine.js
