@@ -2,6 +2,12 @@ import './bootstrap';
 import 'preline';
 import { HSStaticMethods, HSDropdown } from 'preline';
 import { createIcons, icons } from 'lucide';
+import Alpine from 'alpinejs';
+import playerManager from './alpine/components/playerManager';
+
+window.Alpine = Alpine;
+Alpine.data('playerManager', playerManager);
+Alpine.start();
 
 // Expose Preline components globally
 window.HSStaticMethods = HSStaticMethods;
