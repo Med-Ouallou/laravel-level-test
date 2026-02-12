@@ -1,10 +1,10 @@
+import baseComponent from '../baseComponent';
+
 export default function playerManager() {
     return {
+        ...baseComponent(),
         search: '',
         tableHtml: '',
-        submitting: false,
-        errors: {},
-        csrfToken: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
 
         init() {
             // Capture initial table HTML from Blade render
@@ -30,106 +30,32 @@ export default function playerManager() {
                     const methodInput = e.target.querySelector('input[name="_method"]');
                     if (methodInput && methodInput.value === 'DELETE') {
                         e.preventDefault();
-                        if (confirm('Are you sure you want to delete this player?')) {
-                            this.deletePlayer(e.target);
-                        }
+                        this.deletePlayer(e.target);
                     }
                 }
             });
         },
 
-        fetchPlayers(url = "/admin/players") {
-            const finalUrl = new URL(url, window.location.origin);
-            if (this.search) {
-                finalUrl.searchParams.set('search', this.search);
+        async fetchPlayers(url = "/admin/players") {
+            try {
+                this.tableHtml = await this.fetchTableData(url, { search: this.search });
+            } catch (error) {
+                console.error('Error fetching players:', error);
             }
-
-            fetch(finalUrl, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-                .then(response => response.text())
-                .then(html => {
-                    this.tableHtml = html;
-                    this.$nextTick(() => {
-                        if (typeof window.createIcons === 'function') {
-                            window.createIcons({ icons: window.lucideIcons });
-                        }
-                    });
-                })
-                .catch(error => console.error('Error fetching players:', error));
         },
 
         async submitForm(e) {
-            this.submitting = true;
-            this.errors = {};
-            const formData = new FormData(e.target);
-
-            try {
-                const response = await fetch(e.target.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': this.csrfToken,
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: formData
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    if (response.status === 422) {
-                        this.errors = Object.keys(data.errors).reduce((acc, key) => {
-                            acc[key] = data.errors[key][0];
-                            return acc;
-                        }, {});
-                    } else {
-                        throw new Error('Something went wrong');
-                    }
-                } else {
-                    // Success
-                    if (window.HSOverlay) {
-                        window.HSOverlay.close('#hs-add-player-modal');
-                    } else {
-                        const modal = document.getElementById('hs-add-player-modal');
-                        if (modal) modal.classList.add('hidden');
-                    }
-
-                    e.target.reset();
-                    this.fetchPlayers();
-                    alert('Player added successfully');
-                }
-            } catch (error) {
-                console.error('Error adding player:', error);
-                alert('An error occurred. Please try again.');
-            } finally {
-                this.submitting = false;
-            }
+            const success = await this.handleFormSubmission(e, () => {
+                this.fetchPlayers();
+                alert('Player added successfully');
+            }, '#hs-add-player-modal');
         },
 
         async deletePlayer(form) {
-            const formData = new FormData(form);
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': this.csrfToken,
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: formData
-                });
-
-                if (response.ok) {
-                    this.fetchPlayers();
-                    alert('Player deleted successfully');
-                } else {
-                    alert('Error deleting player');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred');
-            }
+            await this.handleDeletion(form, () => {
+                this.fetchPlayers();
+                alert('Player deleted successfully');
+            }, 'Are you sure you want to delete this player?');
         }
     }
 }
