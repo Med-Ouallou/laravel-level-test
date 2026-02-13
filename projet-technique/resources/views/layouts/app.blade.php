@@ -37,7 +37,7 @@
                     </a>
 
                     @auth
-                        @can('isAdmin')
+                        @can('access-admin')
                             <div class="w-px h-4 bg-slate-300"></div>
                             <a class="text-sm font-medium {{ request()->routeIs('admin.*') ? 'text-indigo-600' : 'text-slate-600 hover:text-indigo-600' }} flex items-center gap-x-1"
                                 href="{{ route('admin.players') }}">
@@ -111,7 +111,7 @@
                         Players
                     </a>
                     @auth
-                        @can('isAdmin')
+                        @can('access-admin')
                             <a class="font-medium {{ request()->routeIs('admin.*') ? 'text-indigo-600' : 'text-slate-600' }}"
                                 href="{{ route('admin.players') }}">
                                 Admin Area

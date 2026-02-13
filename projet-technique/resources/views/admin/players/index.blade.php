@@ -44,6 +44,7 @@
                                 </div>
                             </div>
 
+                        @can('add-players')
                             <button type="button"
                                 class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none"
                                 aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-add-player-modal"
@@ -51,6 +52,7 @@
                                 <i data-lucide="plus" class="w-4 h-4"></i>
                                 Add New Player
                             </button>
+                        @endcan
                         </div>
                     </div>
 
@@ -61,10 +63,13 @@
             </div>
         </div>
 
-        <!-- Add Player Modal -->
-        <div id="hs-add-player-modal"
-            class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none"
-            role="dialog" tabindex="-1" aria-labelledby="hs-add-player-modal-label">
+    @can('add-players')
+    <!-- Add Player Modal -->
+    <div id="hs-add-player-modal"
+        class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none"
+        role="dialog" tabindex="-1" aria-labelledby="hs-add-player-modal-label">
+        <div
+            class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
             <div
                 class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
                 <div
@@ -157,4 +162,182 @@
             </div>
         </div>
     </div>
+    @endcan
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search-input');
+            const tableContainer = document.getElementById('player-table-container');
+            const addForm = document.getElementById('add-player-form');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            let timeout = null;
+
+            // Search functionality
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        const query = searchInput.value;
+                        const url = new URL('{{ url('admin/players') }}');
+                        if (query) {
+                            url.searchParams.set('search', query);
+                        }
+
+                        fetch(url, {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.text())
+                        .then(html => {
+                            tableContainer.innerHTML = html;
+                            // Reinitialize lucide icons
+                            if (typeof window.createIcons !== 'undefined' && typeof window.lucideIcons !== 'undefined') {
+                                window.createIcons({ icons: window.lucideIcons });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching players:', error);
+                        });
+                    }, 300);
+                });
+            }
+
+            // Handle Pagination AJAX
+            document.addEventListener('click', (e) => {
+                const paginationLink = e.target.closest('#pagination-links a');
+                if (paginationLink) {
+                    e.preventDefault();
+                    const url = paginationLink.href;
+                    const search = searchInput.value;
+                    const finalUrl = new URL(url);
+                    if (search) {
+                        finalUrl.searchParams.set('search', search);
+                    }
+
+                    fetch(finalUrl, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.text())
+                    .then(html => {
+                        tableContainer.innerHTML = html;
+                        // Reinitialize lucide icons
+                        if (typeof window.createIcons !== 'undefined' && typeof window.lucideIcons !== 'undefined') {
+                            window.createIcons({ icons: window.lucideIcons });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching paginated players:', error);
+                    });
+                }
+            });
+
+            // Add Player functionality
+            if (addForm) {
+                addForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(addForm);
+                    const submitBtn = document.getElementById('submit-player-btn');
+                    submitBtn.disabled = true;
+
+                    // Reset errors
+                    document.querySelectorAll('[id^="error-"]').forEach(el => el.classList.add('hidden'));
+
+                    fetch('{{ url('admin/players') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw { status: response.status, data: data };
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Success - close modal
+                        if (window.HSOverlay) {
+                            window.HSOverlay.close('#hs-add-player-modal');
+                        } else {
+                            const modal = document.getElementById('hs-add-player-modal');
+                            modal.classList.add('hidden');
+                            modal.classList.remove('open');
+                            document.body.style.overflow = '';
+                            const backdrop = document.querySelector('.hs-overlay-backdrop');
+                            if (backdrop) backdrop.remove();
+                        }
+                        
+                        addForm.reset();
+                        // Refresh table
+                        if (searchInput) {
+                            searchInput.dispatchEvent(new Event('input'));
+                        }
+                        alert('Player added successfully');
+                    })
+                    .catch(error => {
+                        if (error.status === 422 && error.data && error.data.errors) {
+                            const errors = error.data.errors;
+                            Object.keys(errors).forEach(key => {
+                                const errorEl = document.getElementById(`error-${key}`);
+                                if (errorEl) {
+                                    errorEl.innerText = errors[key][0];
+                                    errorEl.classList.remove('hidden');
+                                }
+                            });
+                        } else {
+                            console.error('Error adding player:', error);
+                            alert('An error occurred. Please try again.');
+                        }
+                    })
+                    .finally(() => {
+                        submitBtn.disabled = false;
+                    });
+                });
+            }
+
+            // Handle Delete AJAX
+            document.addEventListener('submit', (e) => {
+                if (e.target.matches('form[action*="/admin/players/"]')) {
+                    const methodInput = e.target.querySelector('input[name="_method"]');
+                    if (methodInput && methodInput.value === 'DELETE') {
+                        e.preventDefault();
+                        if (!confirm('Are you sure you want to delete this player?')) return;
+                        
+                        const action = e.target.action;
+                        const formData = new FormData(e.target);
+                        
+                        fetch(action, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Refresh table
+                            if (searchInput) {
+                                searchInput.dispatchEvent(new Event('input'));
+                            }
+                            alert('Player deleted successfully');
+                        })
+                        .catch(error => {
+                            console.error('Error deleting player:', error);
+                            alert('An error occurred while deleting the player.');
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+@endpush
 @endsection
