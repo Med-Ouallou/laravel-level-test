@@ -11,7 +11,7 @@ Route::get('/players', [PublicController::class, 'players'])->name('public.playe
 Route::get('/players/{player}', [PublicController::class, 'player'])->name('public.player');
 
 // Admin
-Route::prefix('admin')->middleware(['auth', 'can:isAdmin'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'can:access-admin'])->group(function () {
     Route::get('/players', [AdminController::class, 'indexPlayers'])->name('admin.players');
     Route::get('/players/create', [AdminController::class, 'createPlayer']);
     Route::post('/players', [AdminController::class, 'storePlayer']);

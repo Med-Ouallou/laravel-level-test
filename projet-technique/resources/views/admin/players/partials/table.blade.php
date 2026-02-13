@@ -65,10 +65,14 @@
                 <td class="size-px whitespace-nowrap">
                     <div class="px-6 py-1.5">
                         <div class="flex justify-end items-center gap-2">
+                            @can('edit-players')
                             <a href="{{ url('admin/players/' . $player->id . '/edit') }}"
                                 class="text-slate-500 hover:text-indigo-600 transition-colors" title="Edit">
                                 <i data-lucide="pencil" class="w-4 h-4"></i>
                             </a>
+                            @endcan
+
+                            @can('delete-players')
                             <form action="{{ url('admin/players/' . $player->id) }}" method="POST"
                                 onsubmit="return confirm('Are you sure you want to delete this player?');"
                                 class="inline">
@@ -80,6 +84,7 @@
                                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                                 </button>
                             </form>
+                            @endcan
                         </div>
                     </div>
                 </td>

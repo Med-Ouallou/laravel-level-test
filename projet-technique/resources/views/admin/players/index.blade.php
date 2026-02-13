@@ -44,6 +44,7 @@
                                 </div>
                             </div>
 
+                        @can('add-players')
                             <button type="button"
                                 class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none"
                                 aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-add-player-modal"
@@ -51,6 +52,7 @@
                                 <i data-lucide="plus" class="w-4 h-4"></i>
                                 Add New Player
                             </button>
+                        @endcan
                         </div>
                     </div>
 
@@ -62,6 +64,7 @@
         </div>
     </div>
 
+    @can('add-players')
     <!-- Add Player Modal -->
     <div id="hs-add-player-modal"
         class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none"
@@ -156,6 +159,7 @@
             </div>
         </div>
     </div>
+    @endcan
 
 @push('scripts')
     <script>

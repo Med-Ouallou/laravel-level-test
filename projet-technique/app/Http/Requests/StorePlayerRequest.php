@@ -11,7 +11,7 @@ class StorePlayerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return \Illuminate\Support\Facades\Gate::allows('isAdmin');
+        return \Illuminate\Support\Facades\Gate::allows('add-players');
     }
 
     /**
