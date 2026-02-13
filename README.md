@@ -21,6 +21,17 @@ Realisé par : **Mohamed Ouallou**<br>
 Encadré par : **M.ESSARAJ Fouad**
 
 ---
+# Plan
+
+1.  **Méthode Waterfall**
+2.  **Exigences :** Travail à faire
+3.  **Contexte :** Projet de Fin de Formation
+4.  **Analyse Technique**
+5.  **Analyse :** Analyse Fonctionnelle
+6.  **Conception**
+7.  **Versions (v1 - v8)**
+8.  **Conclusion**
+---
 
 ## Exigences : Travail a faire
 
@@ -82,7 +93,7 @@ L’application est basée sur deux types d’acteurs :
 
 ---
 
-## Versions
+# Versions
 
 ### Version 1
 
@@ -128,7 +139,51 @@ L’application est basée sur deux types d’acteurs :
 
 ---
 
-## Sujet - Live coding
+## LiveCoding
 
-* Un bouton “Ajouter” qui ouvre une modale pour créer un nouvel élément.
-* Une barre de recherche filtrant des éléments par joueur.
+## **v1** Public Side - Live Coding
+* Creation du portfolio personnel
+
+---
+
+## **v2** Admin Side - Live Coding
+* Gestion des articles (CRUD)
+
+---
+
+## **v3** Authentification / Authorization - Live Coding
+* 
+
+---
+
+## **v4** SPA / AJAX - Live Coding
+* Un bouton “Ajouter” qui ouvre une modale pour créer un nouvel élément. <br>
+* Une barre de recherche filtrant des éléments par titre.
+
+---
+
+## **v5** SPA / Alpine.js - Live Coding
+* 
+
+---
+
+## **v6** Spatie / Authorization - Live Coding
+* 
+
+---
+
+## **v7** API - Live Coding
+* 
+
+---
+
+## **v8** Mobile App - Live Coding
+* 
+
+---
+
+## **Conclusion**
+
+
+
+---
