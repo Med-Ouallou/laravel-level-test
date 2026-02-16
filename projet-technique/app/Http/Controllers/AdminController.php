@@ -33,14 +33,14 @@ class AdminController extends Controller
 
     public function createPlayer()
     {
-        \Illuminate\Support\Facades\Gate::authorize('add-players');
+        $this->authorize('add-players');
         $teams = Team::all()->groupBy('type');
         return view('admin.players.create', compact('teams'));
     }
 
     public function storePlayer(StorePlayerRequest $request, PlayerService $service)
     {
-        \Illuminate\Support\Facades\Gate::authorize('add-players');
+        $this->authorize('add-players');
         $data = $request->validated();
         $data['user_id'] = auth()->id();
 
@@ -55,21 +55,21 @@ class AdminController extends Controller
 
     public function editPlayer(Player $player)
     {
-        \Illuminate\Support\Facades\Gate::authorize('edit-players');
+        $this->authorize('edit-players');
         $teams = Team::all()->groupBy('type');
         return view('admin.players.edit', compact('player', 'teams'));
     }
 
     public function updatePlayer(UpdatePlayerRequest $request, Player $player, PlayerService $service)
     {
-        \Illuminate\Support\Facades\Gate::authorize('edit-players');
+        $this->authorize('edit-players');
         $service->update($player, $request->validated());
         return redirect()->route('admin.players')->with('success', 'Player updated');
     }
 
     public function deletePlayer(Player $player, PlayerService $service)
     {
-        \Illuminate\Support\Facades\Gate::authorize('delete-players');
+        $this->authorize('delete-players');
         $service->delete($player);
 
         if (request()->ajax()) {

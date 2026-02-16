@@ -26,7 +26,15 @@ class UserSeeder extends Seeder
             // Hash password if it's plain text (simple check or always hash in seeder)
             $data['password'] = \Illuminate\Support\Facades\Hash::make($data['password']);
 
-            User::updateOrCreate(['email' => $data['email']], $data);
+            $user = User::updateOrCreate(['email' => $data['email']], [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $data['password'],
+            ]);
+
+            // Assign role using Spatie
+            $roleName = ($user->name === 'Anouar') ? 'admin' : 'editor';
+            $user->assignRole($roleName);
         }
     }
 }
